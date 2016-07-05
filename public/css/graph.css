@@ -1,0 +1,28 @@
+#svf-canvas {
+    width: 2050px;
+    height: 800px;
+
+    border-style: solid;
+    margin: auto;
+    background-color: white;
+}
+
+.icon {
+/*    width: 340px;
+    height: 140px;*/
+}
+
+.nodetext {
+    font-size: 55;
+}
+
+circle {
+    visibility: hidden;
+}
+.selected .background{
+    visibility: visible;
+}
+
+.popover-property {
+    background-color: white;
+}

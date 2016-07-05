@@ -1,0 +1,19 @@
+<h2>Help</h2>
+<ul>
+    <li><strong>Create node</strong>: Right click on the design area and select the type of node</li>
+    <li><strong>Modify properties of a node</strong>: Double click on the node. In <em>Item properties</em>, the properties of the node will appear. Modify them and click <em>Change Properties</em></li>
+    <li><strong>Modify properties of a link</strong>: Double click on the link. In <em>Item properties</em> you can modify the VLAN and press <em>Change Properties</em></li>
+    <ul>
+        <li>Possible VLAN values: Numbers for access interfaces/ "t" or numbers separated by commas for trunk interfaces (e.g. "1,2,4")</li>
+        <li>Default VLAN: 1 (for trunk links): If no VLAN is specified, traffic will be assigned to VLAN 1</li>
+        <li>Traffic not originated by end users (RADIUS connectivity, etc.), originated by the devices (such as APs, captive, etc.), will use VLAN 1 (default) in trunk interfaces or by the VLAN assigned to the interface in access interfaces(ports)</li>
+    </ul>
+    <li><strong>Link two nodes</strong>: Select both nodes, right click on the upper-right zone of the design area and select <em>Link selected nodes</em></li>
+    <li><strong>Select nodes</strong>: click on the nodes to select them. At most two nodes can be selected</li>
+    <li><strong>Delete nodes</strong>: Select 1 or 2 nodes, right click on the upper-right part of the design area and select <em>Delete Selected Nodes</em></li>
+    <li><strong>Delete link</strong>: Select the two nodes which the link connects, right click on the upper-right part of the design area and select <em>Delete links between selected nodes</em></li>
+    <li><strong>Resize the design area</strong>: Scroll down the design area until the bottom part is reached. Click on the buttons <em>Enlarge</em> or <em>Reduce</em></li>
+    <li><strong>Check network and send results to the server</strong>: Press on <em>Evaluate Network</em>. Your network and grade will be stored in the server (the highest score from all attempts will be considered)</li>
+    <li><strong>If more than one link should be neccessary between 2 nodes</strong>: If required _aux_ nodes can be used for this purpose, using them as intermediate nodes between the nodes to link. Both links connecting to the _aux_ node will be considered as a single link and must have the same configuration (VLAN)</li>
+    <li>It is recommended to use VAPs connected to APs when VLANs are used (leaving the AP configuration empty). The AP will sen control packets to the RADIUS server, the VAP node will send the packets originated by the clients</li>
+</ul>

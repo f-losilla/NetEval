@@ -1,0 +1,139 @@
+<% include partials/header %>
+<!--<h1>Network Design and Evaluation tool</h1>-->
+
+
+
+
+    <div class="container">
+
+      <div class="row ">
+
+ <!--       <div class="col-xs-12 col-sm-12 col-lg-12">-->
+          <div class="jumbotron">
+            <h1>NetEval</h1>
+            <p> <%= lang.ui.NETEVAL_DESCRIPTION %></p>
+          </div>
+
+<!--          <div class="row">-->
+          <!--problem description-->
+            <div class="col-sm-8 col-md-8 col-lg-8 medium-height">
+              <h3> <%= lang.ui.PROBLEM_DESCRIPTION_TITLE %> </h3>
+              <%= (challenge_id)%>
+               <%- include("view-submission.ejs") %>
+                
+            </div>
+
+            <div class="col-sm-4 col-lg-4 medium-height">
+              <div class="row">
+                <div class="col-sm-12 ">
+                  <h3> <%= lang.ui.ITEM_PROPS_TITLE %> </h3>
+                  <div> <%= lang.ui.ITEM_PROPS_HELP %> </div>
+                  <div id="property-editor" class ="" >
+                    
+                    <div id="property-editor-title"></div> <!--changed by javascript-->
+                    <table>
+                      <tbody>
+                      </tbody>
+                    </table>
+                    
+                    <input id="changePropBtn" type="button" value="change Properties"  style="display:none;">
+                  
+                </div>
+                <div class="col-sm-12">
+                  
+                </div>
+
+              </div>
+                
+
+              </div>              
+              
+            </div><!--/span-->
+            
+            <div class="col-sm-12 col-sm-12 col-lg-12 graph">
+              <% include partials/svg-canvas %>  
+                  <div class ="position: absolute; bottom: 10px">
+                    <h3> <%= lang.ui.CHANGE_SVG_HEIGHT%></h3>
+                    <button id="enlarge" type="button" onclick="enlargeSvg()"> <%= lang.ui.ENLARGE%> </button>
+                    <button id="reduce" type="button" onclick="reduceSvg()"> <%= lang.ui.REDUCE%> </button>
+                  </div>
+
+            </div>
+
+            <div class="col-sm-8 col-lg-8 medium-height">
+              <h3> <%= lang.ui.FEEDBACK_PANEL_TITLE%> </h3>
+              <button type="button" onclick="checkRestricctions()"> <%= lang.ui.button.EVALUATE%> </button>
+              <div id="eval_output"></div>
+            </div><!--/span-->
+
+            <div class="col-sm-4 col-lg-4 medium-height">
+              <% include partials/upload-form %>  
+            </div>
+<!--            </div>--><!--/span-->
+
+<!--            <div class="col-sm-4 col-lg-4 small-height">
+              <h3>Procedimiento de evaluación</h3>
+              <p> Cada problema se compone de una serie de restrictiones que tu maqueta debe cumplir. Cuando pulses el botón para evaluar la maqueta, en el panel "Evaluación de la maqueta" se indicará si tu maqueta ha cumplido las restricciones o no así como los fallos que hayas podido tener</p>
+              <div id="eval_output"></div>
+            </div>
+            
+            <div class="col-sm-4 col-lg-4 small-height">
+              < % include partials/upload-form %>  
+            </div>
+     
+           <div class="col-sm-4 col-lg-4 small-height">
+              < % include partials/new-user-form %>  
+            </div>
+-->
+          
+          <!--</div>--><!--/row-->
+<!--        </div>--><!--/span-->
+
+<!--        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+          <div class="list-group">
+            <a href="#" class="list-group-item active">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+          </div>
+        </div>--><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+<!--      <footer>
+        <p>&copy; Company 2014</p>
+      </footer>-->
+
+    </div><!--/.container-->
+
+<script>
+  function enlargeSvg(){
+    $(".graph").css("max-height", "+=100");
+    if (parseInt($(".graph").css("max-height"))>800) {
+        $("#enlarge").prop("disabled", true);
+    }
+    $("#reduce").prop("disabled", false);
+  }
+  function reduceSvg(){
+    $(".graph").css("max-height", "-=100");
+    if (parseInt($(".graph").css("max-height"))<300) {
+        $("#reduce").prop("disabled", true);
+    }
+    $("#enlarge").prop("disabled", false);
+  }
+
+</script>
+
+
+    
+
+
+
+<% include partials/footer %>

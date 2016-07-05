@@ -1,0 +1,70 @@
+<div class="formulation">
+  <p>Se tienen 3 zonas aisladas que se quieren conectar por medio de radioenlaces: las zonas a, b y c. La zona a está directamente conectada a Internet, mientras que las zonas b y c no. 
+  Suponga que todas las zonas están separadas 1.5Km entre sí (es decir, forman un triángulo con lados de 1.5Km).</p>
+  <p>En la <strong>zona b</strong> se debe dar acceso a Internet a clientes inalámbricos mediante dos redes con SSIDs <strong>"empleados" y "visitantes"</strong>. La red "empleados" estará protegida mediante <strong>WPA2-Enterprise</strong> y la red "visitantes" mediante un <strong>portal cautivo</strong> solamente.</p>
+  <p>Los clientes de ambas redes recibirán su <strong>IP de forma dinámica</strong>, en el caso de la red "empleados" deberán recibir un rango de IPs entre 192.168.0.100 y 192.168.0.200, mientras que la red "visitantes" tendrá IPs entre 192.168.2.100 y 192.168.2.200.</p>
+  <p>La <strong>zona c</strong> solamente proporcionará acceso mediante la <strong>red "empleados"</strong>, con las misma seguridad e IPs que en la zona b.</p>
+  <p>Para los radioenlaces se usarán los equipos que se encuentran en el datasheet colgado en el aula virtual (Ubiquiti LiteBeam). El datasheet describe 3 equipos distintos. 
+  De entre ellos se elegirá para cada zona el más apropiado con la única condición de usar equipos que soporten MIMO y estén basados en el estándar 802.11ac (con TDMA propietario del fabricante).
+  El fabricante proporciona una tolerancia que indica cómo pueden variar la potencia máxima del equipo y la sensibilidad. Haga el cálculo para el caso peor en ambos casos. </p>
+  <p>Suponga que la zona b necesita transmitir datos a <strong>30Mbps</strong> y la zona c necesita <strong>20Mbps</strong>. Debe establecer las propiedades de los equipos que forman cada radioenlace para que se garantize
+  que ambas zonas puedan transmitir simultáneamente a la máxima velocidad. Use las tablas proporcionadas en el datasheet y las de <a href="http://mcsindex.com" target="_blank">mcsindex.com</a>. Use canales de 20MHz. Asuma que los equipos utilizan un intervalo de guarda (GI) de 400ns.</p>
+  <p>Las pérdidas por propagación en espacio libre serán de 115 dB para cada radioenlace, la PIRE máxima a la frecuencia usada de 1W y el margen de desvanecimiento debe de ser de 10dB (no hay que introducirlos, los aplica el programa automáticamente).</p>
+  
+  <p>Notas: 
+  <ul>
+    <li>
+      Se deben usar minúsculas para todas las propiedades de los nodos
+    </li>
+    <li>
+      Los posibles valores para el campo security de los aps/vaps son open/wpa2-enterprise/wpa2-personal
+    </li>    
+    <li>
+      Antes de verificar la red mediante el botón <em>Evaluate Network</em> introduzca la red completa. Después haga los cambios que sean necesarios según los errores indicados
+    </li>
+    <li>
+      Modifica la propiedad zone en los nodos de tipo "wireless-link" (el resto se actualizarán solos)
+    </li>
+  </ul></p>
+  
+</div>
+
+<script>
+/*global problem*/
+/*console.log ("challenge param = " + challenge)*/
+
+  // descrieb the restrictions that must be met
+  problem = { 
+    "challenge_id": "<%=challenge_id%>",
+    "description": "The description goes here... or URL",
+    "restrictions": [
+      {"desc": "DHCP(visitantes)", "type": "dhcp", "conf_node_props" : {"essid" : "visitantes"}, "dhcp_props" : {"start_ip": "192.168.2.100", "end_ip" : "192.168.2.200"}},
+      {"desc": "DHCP(empleados)", "type": "dhcp", "conf_node_props" : {"essid" : "empleados"}, "dhcp_props" : {"start_ip": "192.168.0.100", "end_ip" : "192.168.0.200"}},
+      {"desc": "Captive portal (visitantes)", "type": "captive", "node_props" : {"essid" : "visitantes"}, "security_props" : {"security": "open"}},
+      {"desc": "WPA2-Enterprise (empleados)", "type": "wpa-enterprise", "node_props" : {"essid" : "empleados"}, "security_props" : {"security": "wpa2-enterprise"}},
+      {"desc": "Zone b", "type": "zone", "frontier_props": {"zone": "b", "type": "wireless-link"}, "nodes_in_zone" : [{"essid": "visitantes"}, {"essid": "empleados"}],  "nodes_not_in_zone": {}},
+      {"desc": "Zone c", "type": "zone", "frontier_props": {"zone": "c", "type": "wireless-link"}, "nodes_in_zone" : {"essid": "empleados"},  "nodes_not_in_zone": {"essid": "visitantes"}},
+      {"desc": "Wireless link a - b", "type": "wireless-link", "bs_props": {"node" :{"zone": "a", "type": "wireless-link"}, "radio":{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23"}},  "subscribers_props": {"node": {"zone": "b", "type": "wireless-link"}, "radio" :{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23", "loss" : "115", "margin": "10"}}},
+      {"desc": "Wireless link a - c", "type": "wireless-link", "bs_props": {"node" :{"zone": "a", "type": "wireless-link"}, "radio":{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23"}},  "subscribers_props": {"node": {"zone": "c", "type": "wireless-link"}, "radio" :{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23", "loss" : "115", "margin": "10"}}}
+    ]
+  }
+  
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+  $(document).ready(function() {   
+      nodes=[]; links=[];
+  
+      graph = new myGraph("#svf-canvas");
+      
+      // optional: load a initial graph
+      <% if (submission_url!= null && submission_url!="") { %>
+      graph.loadSubmission("<%=submission_url%>");
+      
+      //data.nodes.some(function (n) {if ("tx-pow" in n) return true;})
+      <% } %>
+
+  });
+
+</script>

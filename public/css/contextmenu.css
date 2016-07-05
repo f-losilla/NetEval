@@ -1,0 +1,48 @@
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+/* Each of the items in the list */
+.custom-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.custom-menu li:hover {
+    background-color: #DEF !important;
+}
+
+.custom-menu li#new-link {
+    background-color: #EF0;
+}
+
+.custom-menu li#edit-node {
+    background-color: #EF0;
+}
+
+.custom-menu li#delete-link {
+    background-color: #E44
+}
+
+.custom-menu li.warning {
+    background-color: #E44
+}
+.custom-menu li.warning:hover {
+    border: 4px solid #F22;
+}
+
+g .background {
+    background-color: #234
+}
+

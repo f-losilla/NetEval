@@ -1,0 +1,79 @@
+<div id="formulation"> <!--changed in javascript-->
+
+</div>
+
+<script>
+/*global problem*/
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+//TODO hacer GET del submission y coger nodes y links
+//TODO hacer un landing2 que llame a este, cuando funcione
+
+var getSubmission = function(url){
+//console.log("myFunction")     
+     xhr = new XMLHttpRequest();
+
+     xhr.open("GET", url, true);
+     xhr.setRequestHeader("Content-type", "application/json");
+     xhr.onreadystatechange = function () { 
+         var json;
+         if (xhr.readyState == 4 && xhr.status == 200) {
+             json = JSON.parse(xhr.responseText);
+//             console.log(json)
+              json.network.nodes.forEach(function(n) {
+        console.log("añadiendo node")
+                graph.addNode(n);
+              });
+  
+              json.network.links.forEach(function (l){
+                  graph.addLink(l.source, l.target, {"vlan": l.vlan});
+              });
+              
+              problem = json.challenge;
+              
+//              if ("teacher_mode" in json && json["teacher_mode"]  == true) teacher_mode=true;
+//              else teacher_mode = false;
+                teacher_mode = <%= set_teacher_mode %>; // allow or disallow submitting
+                var html = "<p>Este es el envio <%= subm_id %> para el desafio <%= challenge_id %>.</p><p> Challenge: {";
+                var html = "<p>This is submission <%= subm_id %> for <%= challenge_id %> challenge. Changes made to the network as well as evalutaion results won't be stored in the database.</p> <p>The restrictions defined for the challenge and the score of the student are the following:</p>"
+                for (var key in problem){
+                    if (key != "restrictions")
+                        html += "<p>"+key + ": " + JSON.stringify(problem[key])+",</p>"
+                    else{
+                        html += "<p>restrictions:[</p>"
+                        problem.restrictions.forEach(function (r){
+                            var clone = {}
+                            for (keyr in r) clone[keyr] = r[keyr];
+                            delete clone["errors"];
+                            html += "<p>   "+JSON.stringify(clone)+",</p>"
+                        });
+                        html += "<p>],</p>"
+                    }
+                    
+                }
+                html += "}</p>"
+            $("#formulation").html(html);
+
+         } else if (xhr.readyState == 4 && xhr.status != 200) {
+             //json = JSON.parse(xhr.responseText);
+              
+              console.log("texto recibido = "+ xhr.responseText);
+               console.log(xhr.status)
+         }
+     }
+     xhr.send();
+}
+    
+$(document).ready(function() {    
+    nodes=[]; links=[];
+    var url = "/submissions/<%= subm_id %>";
+console.log(url)         
+    graph = new myGraph("#svf-canvas");
+    getSubmission(url);
+      
+
+});
+
+</script>

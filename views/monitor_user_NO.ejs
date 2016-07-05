@@ -1,0 +1,24 @@
+<ul>
+
+
+
+<% users.forEach (function (user) {%>
+    <li>  Usuario: <%= user.username %>  
+    <% if (user.scores != null) { %>
+        <ul>
+        <% user.scores.forEach (function (score) {%>
+            <li> <%=score.challenge_id%></li>
+                <a href="/challenges/<%=score.challenge_id%>/submissions/<%=score.first%>" target="_blank"> First</a>
+                <a href="/challenges/<%=score.challenge_id%>/submissions/<%=score.best%>" target="_blank"> Best</a>
+                <a href="/challenges/<%=score.challenge_id%>/submissions/<%=score.last%>" target="_blank"> Last</a>
+                Puntuación: <%=score.score%></li>
+                Num. subidas: <%=score.num_attemps%></li>
+                Intentos hasta 10: <%=score.ok_after_attemps%>
+                IP: <%=score.ip%>
+        <% }); %>
+        </ul>
+    <% } %>
+ 
+    </li>
+<% }); %>
+</ul>

@@ -1,0 +1,66 @@
+<div class="formulation">
+  <p>Suppose three different locations/zones which must be connected by means of radio frequency links: locations a, b and c. Location a is directly connected to the Internet, whereas locations b and c are not. 
+  Assume that there is a distance of 1.5Km between each location (that is, they are arranged in a triangle of 1.5Km side length).</p>
+  <p>In <strong>location b</strong> Internet access must be provided by means of two networks with SSIDs <strong>"empleados" (workers) and "visitantes" (guests)</strong>. The network "empleados" will be protected by <strong>WPA2-Enterprise</strong> and the network "visitantes" by a <strong> captive portal</strong> (only).</p>
+  <p>Clients from both networks will receive their <strong>IP addresses dynamically</strong>. Clients of "empleados" will receive an IP range between 192.168.0.100 and 192.168.0.200. Clients of "visitantes" will recieve IPs between 192.168.2.100 and 192.168.2.200.</p>
+  <p><strong>Location c</strong> will just provide Internet access through the <strong>"empleados" SSID</strong>, with the same security and IPs than in location b.</p>
+  <p>In order to create the radio frequency links, the following devices can be selected:  LiteBeam LBE-M5-23, LBE-5AC-23, LBE-5AC-16-120.
+   For every location choose the most appropriate one with the only condition that they must support MIMO technology. The manufacturer provides a tolerance that denotes how the maximum transmission power and the sensitivity may vary. Always consider the worst-case scenario.</p>
+  <p>Assume that location b requires transmissions at <strong>30Mbps</strong> and location c requires <strong>20Mbps</strong>. You must set the properties of each of the devices forming the radio frequency links so that it can be guaranteed that both locations are able to transmit simultaneously at the maximum rate. Use the tables provided by the manufacturer and those of <a href="http://mcsindex.com" target="_blank">mcsindex.com</a>. Consider 20 MHz bandwidth channels. Assume that devices ise a guard interval (GI) of 400ns.</p>
+  <p>Propagation loss in free space will be 115 dB for each radio frequency link, the maximum EIRP will be 1W and the fade margin of 10dB (it is not necessary to enter them, the program will apply and check them automatically).</p>
+  
+  <p>Considerations: 
+  <ul>
+    <li>
+      You must use lowercase letters for all the properties of the items
+    </li>
+    <li>
+      Possible values of the security field of aps/vaps are open/wpa2-enterprise/wpa2-personal
+    </li>    
+    <li>
+      Change the zone (location) property in the "wireless-link" nodes (the rest of nodes will be updated automatically)
+    </li>
+  </ul></p>
+  
+</div>
+
+<script>
+/*global problem*/
+/*console.log ("challenge param = " + challenge)*/
+
+  // describeb the restrictions that must be met (explanation below)
+  problem = { 
+    "challenge_id": "<%=challenge_id%>",
+    "description": "The description goes here... or URL",
+    "restrictions": [
+      {"desc": "DHCP(visitantes)", "type": "dhcp", "conf_node_props" : {"essid" : "visitantes"}, "dhcp_props" : {"start_ip": "192.168.2.100", "end_ip" : "192.168.2.200"}},
+      {"desc": "DHCP(empleados)", "type": "dhcp", "conf_node_props" : {"essid" : "empleados"}, "dhcp_props" : {"start_ip": "192.168.0.100", "end_ip" : "192.168.0.200"}},
+      {"desc": "Captive portal (visitantes)", "type": "captive", "node_props" : {"essid" : "visitantes"}, "security_props" : {"security": "open"}},
+      {"desc": "WPA2-Enterprise (empleados)", "type": "wpa-enterprise", "node_props" : {"essid" : "empleados"}, "security_props" : {"security": "wpa2-enterprise"}},
+      {"desc": "Zone b", "type": "zone", "frontier_props": {"zone": "b", "type": "wireless-link"}, "nodes_in_zone" : [{"essid": "visitantes"}, {"essid": "empleados"}],  "nodes_not_in_zone": {}},
+      {"desc": "Zone c", "type": "zone", "frontier_props": {"zone": "c", "type": "wireless-link"}, "nodes_in_zone" : {"essid": "empleados"},  "nodes_not_in_zone": {"essid": "visitantes"}},
+      {"desc": "Wireless link a - b", "type": "wireless-link", "bs_props": {"node" :{"zone": "a", "type": "wireless-link"}, "radio":{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23"}},  "subscribers_props": {"node": {"zone": "b", "type": "wireless-link"}, "radio" :{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23", "loss" : "115", "margin": "10"}}},
+      {"desc": "Wireless link a - c", "type": "wireless-link", "bs_props": {"node" :{"zone": "a", "type": "wireless-link"}, "radio":{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23"}},  "subscribers_props": {"node": {"zone": "c", "type": "wireless-link"}, "radio" :{"sens": "-88", "eirp" : "30", "max-tx-pow(dBm)": "23", "loss" : "115", "margin": "10"}}}
+    ]
+  }
+
+
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+  $(document).ready(function() {   
+      nodes=[]; links=[];
+  
+      graph = new myGraph("#svf-canvas");
+      
+      // optional: load a initial graph
+      <% if (submission_url!= null && submission_url!="") { %>
+      graph.loadSubmission("<%=submission_url%>");
+      
+      //data.nodes.some(function (n) {if ("tx-pow" in n) return true;})
+      <% } %>
+
+  });
+
+</script>

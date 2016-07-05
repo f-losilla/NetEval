@@ -1,0 +1,27 @@
+{
+  "name": "NetEval",
+  "version": "1.13.0",
+  "description": "NetEval v1",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fernando Losilla",
+  "license": "GNU v3",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.0",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "fs": "0.0.2",
+    "https": "^1.0.0",
+    "jade": "^1.11.0",
+    "mongodb": "^2.1.18",
+    "mongoose": "^4.4.14",
+    "multer": "^1.1.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
+}

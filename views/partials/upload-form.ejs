@@ -1,0 +1,51 @@
+<form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">
+     <input type="file" name="userPhoto" />
+     Title: <input type="text" name="title"> <br>
+     Challenghe Group: <input type="text" name="challenge_group" <%if (user.role!="admin"){%>disabled<%}%>> <br>
+     <input type="submit" value="Upload File" name="submit">
+</form>
+Description: <br>
+<textarea name="description" form="uploadForm" style="width: 400px; height: 80px;">Use this space to enter a short description of the exercise</textarea>
+
+<!--<button onclick="submitResults()" >Submit</button>-->
+
+<script>
+     // Sending and receiving data in JSON format using POST mothod
+//
+var submitResults = function(){
+console.log("myFunction")     
+     xhr = new XMLHttpRequest();
+     var url = "/submissions";
+     xhr.open("POST", url, true);
+     xhr.setRequestHeader("Content-type", "application/json");
+     xhr.onreadystatechange = function () { 
+         if (xhr.readyState == 4 && xhr.status == 200) {
+console.log("texto recivido = "+ xhr.responseText);
+console.log(xhr.status)
+             var json = JSON.parse(xhr.responseText);
+             console.log(json)
+         } else if (xhr.readyState == 4 && xhr.status != 200) {
+              var json = JSON.parse(xhr.responseText);
+              
+              console.log("texto recivido = "+ xhr.responseText);
+               console.log(xhr.status)
+               console.log(xhr.getResponseHeader("location"))
+
+         }
+     }
+     var processed_links = [];
+     links.forEach(function (l){
+          var copy_link={};
+          for (key in l){
+               if (key != "source" && key != "target") copy_link[key] =  l[key];
+               else if (key == "source") copy_link[key] = l.source.id;
+               else if (key == "target") copy_link[key] = l.target.id;
+          }
+          processed_links.push(copy_link);
+     });
+     var data = JSON.stringify({"score": problem.score, "challenge_id": problem.challenge_id, "network": {"links":processed_links, "nodes": nodes}, "challenge":problem});
+console.log("data to be sent");     
+console.log(data);     
+     xhr.send(data);
+}
+</script>

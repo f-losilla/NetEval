@@ -1,0 +1,30 @@
+{
+    "nodes": [
+        {"id": 0, "x":  50, "y":  35, "type": "internet"},
+        {"id": 1, "x": 135, "y":  80, "type": "router"},
+        {"id": 2, "x": 250, "y":  40, "type": "captive"},
+        {"id": 3, "x": 140, "y": 170, "type": "radius", "password": ""},
+        {"id": 4, "x": 360, "y": 110, "type": "switch"},
+        {"id": 5, "x": 315, "y": 220, "type": "dhcp", "start_ip": "192.168.2.100", "end_ip": "192.168.2.200"},
+        {"id": 6, "x": 500, "y": 115, "type": "wireless-link", "tx-pow(dBm)": 1, "gain": 10, "sens": -70, "zone": "a"},
+        {"id": 7, "x": 780, "y": 115, "type": "wireless-link", "tx-pow(dBm)": 1, "gain": 10, "sens": -70, "zone": "b"},
+        {"id": 8, "x": 925, "y": 180, "type": "ap", "essid": ""},
+        {"id": 9, "x": 880, "y": 215, "type": "vap", "essid": "turistas",  "zone" : "a", "security" : "open", "password": ""},
+        {"id":10, "x": 960, "y": 220, "type": "vap", "essid": "empleados", "security" : "wpa2-enterprise", "password": ""},
+        {"id":11, "x": 415, "y": 220, "type": "dhcp", "start_ip": "192.168.0.100", "end_ip": "192.168.0.200"},
+        {"id":12, "x": 515, "y": 220, "type": "prueba"}
+    ], "links": [
+        {"source": 0, "target": 1, "vlan": ""},
+        {"source": 1, "target": 2, "vlan": ""},
+        {"source": 2, "target": 4, "vlan": "2"},
+        {"source": 3, "target": 1, "vlan": ""},
+        {"source": 5, "target": 4, "vlan": "2"},
+        {"source": 4, "target": 1, "vlan": ""},
+        {"source": 4, "target":11, "vlan": ""},
+        {"source": 4, "target": 6, "vlan": "t"},
+        {"source": 6, "target": 7, "vlan": "t", "att": 30},
+        {"source": 7, "target": 8, "vlan": "t"},
+        {"source": 8, "target": 9, "vlan": "2"},
+        {"source": 8, "target":10, "vlan": ""}
+    ]
+}

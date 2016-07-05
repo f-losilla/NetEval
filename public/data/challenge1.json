@@ -1,0 +1,13 @@
+{ "description": "The description goes here... or URL",
+"restrictions": [
+    
+    {"desc": "DHCP(tourists)", "type": "dhcp", "conf_node_props" : {"essid" : "turistas"}, "dhcp_props" : {"start_ip": "192.168.2.100", "end_ip" : "192.168.2.200"}},
+    {"desc": "DHCP(employees)", "type": "dhcp", "conf_node_props" : {"essid" : "empleados"}, "dhcp_props" : {"start_ip": "192.168.0.100", "end_ip" : "192.168.0.200"}},
+    {"desc": "Captive portal (turistas)", "type": "captive", "node_props" : {"essid" : "turistas"}, "security_props" : {"security": "open"}},
+    {"desc": "WPA2-Enterprise (empleados)", "type": "wpa-enterprise", "node_props" : {"essid" : "empleados"}, "security_props" : {"security": "wpa2-enterprise"}},
+    {"desc": "Zone b", "type": "zone", "frontier_props": {"zone": "b", "type": "wireless-link"}, "nodes_in_zone" : {"essid": "turistas"},  "nodes_not_in_zone": {"essid" :"empleados"}},
+    {"desc": "Wireless link a - b", "type": "wireless-link", "bs_props": {"node" :{"zone": "a", "type": "wireless-link"}, "radio":{"sens": "-80", "eirp" : "30", "max-tx-pow(dBm)": "20"}},  "subscribers_props": {"node": {"zone": "b", "type": "wireless-link"}, "radio" :{"sens": "-80", "eirp" : "30", "max-tx-pow(dBm)": "20", "loss" : "100", "margin": "10"}}}
+
+    
+]
+}

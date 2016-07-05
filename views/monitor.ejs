@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title> Network Evaluation</title>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/user_monitor.css">
+        <link rel="stylesheet" href="/css/main.css">
+        
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/libs/lang.sp.js"></script>
+    </head>
+    <body>
+        <div clas="jumbotron">
+            <div clas="container"> </div>
+        </div> <!--class=jumbotron-->
+        <div clas="container">
+            <!--<div class="row">-->
+                <!--<div class="col-md-12">-->
+            <ul>
+                
+                    <% users.forEach (function (user) {%>
+                        <li> Usuario: <strong><%= user.username %></strong>
+                        <!--<div class = "user_mon">-->
+                            <input type="button" class="btn_user_mon" id="btn_user_<%=user.username%>" value="show/hide user details">
+                            <div class="user_profile" id="up_<%=user.username%>" style="display:none">
+                                <img src="/img/login.png" alt="No photo available" >
+                                <div class="user_params">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <div class="user_param"> <td>Nombre:</td> <td><span><%=user.firstName%></span></td></div>
+                                            </tr>
+                                            <tr>
+                                                <div class="user_param"> <td>Apellidos:</td> <td><span><%=user.lastName%></span></td></div>
+                                            </tr>
+                                            <tr>
+                                                <div class="user_param"> <td>role:</td> <td><span><%=user.role%></span></td></div>
+                                            </tr>
+                                            <tr>
+                                                <div class="user_param"> <td>email:</td> <td><span><%=user.email%></span></td></div>
+                                            </tr>
+                                            </tbody>
+                                    </table>
+                                </div>
+                                <form action="/monitor/users/<%=user.username%>/pwd" method="post">
+                                    <label>
+                                        <span>New password</span> <input type="password" name="password" value="">    
+                                    </label>
+                                    <label>
+                                        <span>Verify password</span> <input type="password" name="verify_password" value="">
+                                    </label>
+                                    <input type="submit" value="Change password">
+                                </form>
+                                <div id="message"><h1 class="text-center error-message"></h1></div>
+                            </div>
+                            <% if (user.scores != null) { %>
+                            
+                                <!--<ul>-->
+                                <% user.scores.forEach (function (score) {%>
+                                    <div class="score"> 
+                                        <div class="score_user_id "> <strong><%=score.challenge_id%></strong></div>
+                                            <div class="score_user_data row">
+                                                <a class="special_submissions col-sm-4 col-md-2 col-lg-1" href="/challenges/<%=score.challenge_id%>/submissions/<%=score.first%>" target="_blank"> First submission </a>
+                                                <a class="special_submissions col-sm-4 col-md-2 col-lg-1" href="/challenges/<%=score.challenge_id%>/submissions/<%=score.best%>" target="_blank"> Best submission </a>
+                                                <a class="special_submissions col-sm-4 col-md-2 col-lg-1" href="/challenges/<%=score.challenge_id%>/submissions/<%=score.last%>" target="_blank"> Last submission</a>
+                                                <div class="score_attr col-sm-4 col-md-2 col-lg-1">Score: <%=parseFloat(score.score).toFixed(2)%></div>
+                                                <div class="score_attr col-sm-4 col-md-2 col-lg-1"># of attempts: <%=score.num_attemps%></div>
+                                                <div class="score_attr col-sm-4 col-md-2 col-lg-1">Attempts to get max score: <%=score.ok_after_attemps%></div>
+                                                <div class="score_attr col-sm-4 col-md-2 col-lg-1">IP: <%=score.ip%></div>
+                                                <input type="button" class="btn_submissions" id="btn_submissions_<%=score._id%>" value="show/hide submissions">
+                                            </div>
+                                            <div class="challenge_submissions_list row" id="csl_<%=score._id%>" style="display:none">
+                                                <% var i=0; %>
+                                                <!--<ul>-->
+                                                    <% score.submissions.forEach(function (s_id){ %>
+                                                        <a class="col-md-1" href="/challenges/<%=score.challenge_id%>/submissions/<%=s_id%>" target="_blank"> Submission <%=++i%></a>
+                                                    <% }); %>
+                                                <!--</ul>-->
+                                            </div>
+                                </div>            
+                                    <% }); %>
+                                
+                                <!--</ul>-->
+                            <% } %>
+                        <!--</div>--> <!--class="user_mon"-->
+                        </li>
+                    <% }); %>
+                    </ul>
+
+                </div>
+                <div class="col-md-4">
+                    dsdfsf
+                </div>
+            </div>
+            
+        </div>
+                
+        <script>
+            $(".btn_user_mon").click(function(){
+                var username = $(this).attr("id").replace("btn_user_","");
+                $("#up_" + username).toggle();
+            });
+            $(".btn_submissions").click(function(){
+                var submission_id = $(this).attr("id").replace("btn_submissions_","");
+                $("#csl_" + submission_id).toggle();
+            });
+            
+        </script>
+    </body>
+</html>
+        

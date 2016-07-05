@@ -1,0 +1,37 @@
+<div class="formulation">
+  <p> Diseña una red como tú quieras. Luego podrás hacer capturas de pantalla para incluirlas en el trabajo de prácticas. </p>
+  <p> Si quieres grabar la red para poder acceder a ella más tarde debes pulsar <em>Evalute Network</em></p>
+  <p> Si tu red es grande y no cabe en una única captura, recuerda que puedes ampliar el tamaño de la zona de dibujo. Para ello utiliza la barra de desplazamiento para llegar hasta el final del area de dibujo y pulsa sobre <em>Agrandar</em> o <em>Reducir</em></p>
+  </div>
+  
+
+<script>
+/*global problem*/
+
+  // descrieb the restrictions that must be met
+  problem = { 
+    "challenge_id": "<%=challenge_id%>",
+    "description": "The description goes here... or URL",  // campo obtenido de la base de datos
+    "restrictions": [
+    ]
+  }
+  
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+  $(document).ready(function() {   
+      nodes=[]; links=[];
+  
+      graph = new myGraph("#svf-canvas");
+      
+      // optional: load a initial graph
+      <% if (submission_url!= null && submission_url!="") { %>
+      graph.loadSubmission("<%=submission_url%>");
+      
+      //data.nodes.some(function (n) {if ("tx-pow" in n) return true;})
+      <% } %>
+
+  });
+
+</script>

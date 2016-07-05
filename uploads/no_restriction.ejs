@@ -1,0 +1,37 @@
+<div class="formulation">
+  <p> You can use this exercise to design a network subject to no constraints (to take snapshots, etc.) </p>
+  <p> If you want to save the network in order to be able to modify it later, you must click on <em>Evalute Network</em></p>
+  <p> If your network is too large for a single shapshot, you can enlarge the design area. In order to do so, scroll down until the end of the design area and click on <em>Enlarge</em> (or <em>Reduce</em>)</p>
+  </div>
+  
+
+<script>
+/*global problem*/
+
+  // descrieb the restrictions that must be met
+  problem = { 
+    "challenge_id": "<%=challenge_id%>",
+    "description": "The description goes here... or URL",  // campo obtenido de la base de datos
+    "restrictions": [
+    ]
+  }
+  
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+  $(document).ready(function() {   
+      nodes=[]; links=[];
+  
+      graph = new myGraph("#svf-canvas");
+      
+      // optional: load a initial graph
+      <% if (submission_url!= null && submission_url!="") { %>
+      graph.loadSubmission("<%=submission_url%>");
+      
+      //data.nodes.some(function (n) {if ("tx-pow" in n) return true;})
+      <% } %>
+
+  });
+
+</script>

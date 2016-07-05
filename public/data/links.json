@@ -1,0 +1,15 @@
+{
+    links: [
+        {source: 0, target: 1},
+        {source: 1, target: 2},
+        {source: 2, target: 4, vlan: "2"},
+        {source: 3, target: 1},
+        {source: 5, target: 4, vlan: "2"},
+        {source: 4, target:11, vlan: "3"},
+        {source: 4, target: 6, vlan: "t"},
+        {source: 6, target: 7, vlan: "t", att: 30},
+        {source: 7, target: 8, vlan: "t"},
+        {source: 8, target: 9, vlan: "2"},
+        {source: 8, target:10, vlan: "3"},
+    ]
+}

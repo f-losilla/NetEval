@@ -1,0 +1,50 @@
+{
+    "previous":{
+        "variables" : 
+            [{
+                "paths"   
+            }
+            ]
+    }
+    
+    "dhcp" : 
+        {
+            "condition" : "all_nodes_satisfy",
+            "previous" : 
+                [{
+                    "func" : "findDhcpNodesWithRange",
+                    "args" : ["res.start_ip", "res.end_ip"],
+                    "output" : "nodes_evaluated"
+                },
+                {
+                    "func" : "findDhcpNodesOthers",
+                    "args" : ["res.start_ip", "res.end_ip"],
+                    "output" : "other_nodes"
+                },
+                {
+                    "func" : "getAllPaths",
+                    "args" : ["nodes_evaluated", "Internet"]
+                    "output" : "paths"
+                }],
+            "rules" : 
+                [{  
+                    "title" : "A DHCP server is in the broadcast domain",
+                    "func" : "nodeSetIsEmpty",
+                    "onFailError" : "There is no DHCP server with the desired range",
+                },
+                {
+                    "title" : "DHCP server is in broadcast domain",
+                    "func": "nodeInBroadcastDomain",
+                    "onFailError" : "There is no DHCP server properly configured in the broadcast domain",
+                },
+                {
+                    "title" : "There is no other DHCP server in the broadcast domain",
+                    "func" : "nodeNotInBroadcaatDomain"
+                    "args" : [""
+                 }
+                
+                ]
+        
+        }
+    
+}

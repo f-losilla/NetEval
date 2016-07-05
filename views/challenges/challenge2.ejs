@@ -1,0 +1,86 @@
+<div class="formulation">
+  Design a network complying with the following requirements:
+  <ul>
+    <li id="temp"> Three different locations must be provided with Internet access
+       <ul>
+         <li><strong>Location A</strong> can be directly connected to the Internet</li>
+         <li><strong>Location B</strong> must access by means of a full-duplex wireless link to location A. There are 0,5 km between them and the maximum peak data rate that must be supported are 10Mbps for the downlink and 1Mbps for the uplink.</li>
+         <li><strong>Location C</strong> must access by means of a full-duplex wireless link to location A. There are 1,5 km between them and the maximum peak data rate that must be supported are 5Mbps for the downlink and 3Mbps for the uplink.</li>
+         <li> The maximum EIRP for the selected frequency band is 100mW. The sensibility of the wireless devices for each modulation is provided in a separated data sheet </li>
+       </ul>
+    </li>
+    <li>
+      Users in both locations A and B must have Internet access using this Wi-Fi networks:
+      <ul>
+        <li> <strong>Tourists</strong> - For tourists, protected by a captive portal</li>
+        <li> <strong>Employees</strong> - For employes, protected by WPA2-Enterprise</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<script>
+/*global problem*/
+  // descrieb the restrictions that must be met
+  problem = { 
+    "description": "The description goes here... or URL",
+    "restrictions": [
+      {"desc": "DHCP(tourists)", "type": "dhcp", "conf_node_props" : {"essid" : "turistas"}, "dhcp_props" : {"start_ip": "192.168.2.100", "end_ip" : "192.168.2.200"}},
+      {"desc": "DHCP(employees)", "type": "dhcp", "conf_node_props" : {"essid" : "empleados"}, "dhcp_props" : {"start_ip": "192.168.0.100", "end_ip" : "192.168.0.200"}},
+      {"desc": "Captive portal (turistas)", "type": "captive", "node_props" : {"essid" : "turistas"}, "security_props" : {"security": "open"}},
+      {"desc": "WPA2-Enterprise (empleados)", "type": "wpa-enterprise", "node_props" : {"essid" : "empleados"}, "security_props" : {"security": "wpa2-enterprise"}},
+      {"desc": "Zone b", "type": "zone", "frontier_props": {"zone": "b", "type": "wireless-link"}, "nodes_in_zone" : {"essid": "turistas"},  "nodes_not_in_zone": {"essid" :"empleados"}},
+      {"desc": "Wireless link a - b", "type": "wireless-link", "bs_props": {"node" :{"zone": "a", "type": "wireless-link"}, "radio":{"sens": "-80", "eirp" : "30", "max-tx-pow(dBm)": "20"}},  "subscribers_props": {"node": {"zone": "b", "type": "wireless-link"}, "radio" :{"sens": "-80", "eirp" : "30", "max-tx-pow(dBm)": "20", "loss" : "100", "margin": "10"}}}
+    ]
+  }
+  
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+  $(document).ready(function() {    
+      nodes=[]; links=[];
+      graph = new myGraph("#svf-canvas");
+      
+      
+      // optional: load a initial graph
+      var data = {
+        "nodes": [
+            {"id": 0, "x": 50, "y":  35, "type": "internet"},
+            {"id": 1, "x": 135, "y":  80, "type": "router"},
+            {"id": 2, "x": 250, "y":  40, "type": "captive"},
+            {"id": 3, "x": 140, "y": 170, "type": "radius", "password": ""},
+            {"id": 4, "x": 360, "y": 110, "type": "switch"},
+            {"id": 5, "x": 315, "y": 220, "type": "dhcp", "start_ip": "192.168.2.100", "end_ip": "192.168.2.200"},
+            {"id": 6, "x": 500, "y": 115, "type": "wireless-link", "tx-pow(dBm)": 1, "gain": 10, "sens": -70, "zone": "a"},
+            {"id": 7, "x": 780, "y": 115, "type": "wireless-link", "tx-pow(dBm)": 1, "gain": 10, "sens": -70, "zone": "b"},
+            {"id": 8, "x": 925, "y": 180, "type": "ap", "essid": ""},
+            {"id": 9, "x": 880, "y": 215, "type": "vap", "essid": "turistas",  "zone" : "a", "security" : "open", "password": ""},
+            {"id":10, "x": 960, "y": 220, "type": "vap", "essid": "empleados", "security" : "wpa2-enterprise", "password": ""},
+            {"id":11, "x": 415, "y": 220, "type": "dhcp", "start_ip": "192.168.0.100", "end_ip": "192.168.0.200"},
+            {"id":12, "x": 515, "y": 220, "type": "prueba"}
+        ], "links": [
+            {"source": 0, "target": 1, "vlan": ""},
+            {"source": 1, "target": 2, "vlan": ""},
+            {"source": 2, "target": 4, "vlan": "2"},
+            {"source": 3, "target": 1, "vlan": ""},
+            {"source": 5, "target": 4, "vlan": "2"},
+            {"source": 4, "target": 1, "vlan": ""},
+            {"source": 4, "target":11, "vlan": ""},
+            {"source": 4, "target": 6, "vlan": "t"},
+            {"source": 6, "target": 7, "vlan": "t", "att": 30},
+            {"source": 7, "target": 8, "vlan": "t"},
+            {"source": 8, "target": 9, "vlan": "2"},
+            {"source": 8, "target":10, "vlan": ""}
+        ]
+      }
+  
+      data.nodes.forEach(function(n) {
+        graph.addNode(n);
+      });
+  
+      data.links.forEach(function (l){
+          graph.addLink(l.source, l.target, {"vlan": l.vlan});
+      });
+  });
+</script>

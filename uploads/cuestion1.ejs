@@ -1,0 +1,41 @@
+<div class="formulation">
+  <p>Diseña una red con dos redes inalámbricas virtuales con SSIDs "wlan0" y "wlan1", repectivamente (usa nodos vap conectados a un nodo físico ap). Ambas redes deben tener seguridad WPA2-ENTERPRISE Los usuarios que se conecten a esas redes deben obtener direcciones IP de forma dinámica en un rango entre 192.168.2.100 y 192.168.2.200.
+  No es necesario que la red tenga acceso a Internet.</p>
+  <p>Comprueba las propiedades de los nodos. Introduce todas en minúsculas. No modifiques la propiedad zone de los nodos que la tengan.</p>
+  <p>Antes de comprobar la red por primera vez (con el botón Evaluate Network), debes introducir la red completa.</p>
+</div>
+  
+
+<script>
+/*global problem*/
+
+  // descrieb the restrictions that must be met
+  problem = { 
+    "challenge_id": "<%=challenge_id%>",
+    "description": "The description goes here... or URL",  // campo obtenido de la base de datos
+    "restrictions": [
+      {"desc": "DHCP", "type": "dhcp", "conf_node_props" : [{"essid" : "wlan0"},{"essid": "wlan1"}], "dhcp_props" : {"start_ip": "192.168.2.100", "end_ip" : "192.168.2.200"}},
+      {"desc": "WPA2-Enterprise", "type": "wpa-enterprise", "node_props" : [{"essid" : "wlan0"}, {"essid" : "wlan1"}], "security_props" : {"security": "wpa2-enterprise"}},
+      {"desc": "Zone default", "type": "zone", "frontier_props": {}, "nodes_in_zone" : [{"essid": "wlan0", "type": "vap"}, {"essid": "wlan1", "type": "vap"}],  "nodes_not_in_zone": {}},
+    ]
+  }
+  
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+  $(document).ready(function() {   
+      nodes=[]; links=[];
+  
+      graph = new myGraph("#svf-canvas");
+      
+      // optional: load a initial graph
+      <% if (submission_url!= null && submission_url!="") { %>
+      graph.loadSubmission("<%=submission_url%>");
+      
+      //data.nodes.some(function (n) {if ("tx-pow" in n) return true;})
+      <% } %>
+
+  });
+
+</script>

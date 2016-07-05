@@ -1,0 +1,40 @@
+<div class="formulation">
+  <p> Design a network with two virtual wirelss networks, SSIDs "wlan0" and "wlan1", respectively (use vap nodes connected to a physical ap). Both networks must be configured with WPA2-ENTERPRISE security. Users that connect to these networks must obtain IP addresses dymacially between 192.168.2.100 and 192.168.2.200.
+  It is not necessary that there is Internet access.</p>
+  <p>Check node properties. Use lowercase letters for them. Do not modify the "zone" property of those nodes with it.</p>
+</div>
+  
+
+<script>
+/*global problem*/
+
+  // descrieb the restrictions that must be met
+  problem = { 
+    "challenge_id": "<%=challenge_id%>",
+    "description": "The description goes here... or URL",  // campo obtenido de la base de datos
+    "restrictions": [
+      {"desc": "DHCP", "type": "dhcp", "conf_node_props" : [{"essid" : "wlan0"},{"essid": "wlan1"}], "dhcp_props" : {"start_ip": "192.168.2.100", "end_ip" : "192.168.2.200"}},
+      {"desc": "WPA2-Enterprise", "type": "wpa-enterprise", "node_props" : [{"essid" : "wlan0"}, {"essid" : "wlan1"}], "security_props" : {"security": "wpa2-enterprise"}},
+      {"desc": "Zone default", "type": "zone", "frontier_props": {}, "nodes_in_zone" : [{"essid": "wlan0", "type": "vap"}, {"essid": "wlan1", "type": "vap"}],  "nodes_not_in_zone": {}},
+    ]
+  }
+  
+  // initialize nodes and links
+  // currently these variables are declared in other files? (mygraph.js)
+  var graph;
+
+  $(document).ready(function() {   
+      nodes=[]; links=[];
+  
+      graph = new myGraph("#svf-canvas");
+      
+      // optional: load a initial graph
+      <% if (submission_url!= null && submission_url!="") { %>
+      graph.loadSubmission("<%=submission_url%>");
+      
+      //data.nodes.some(function (n) {if ("tx-pow" in n) return true;})
+      <% } %>
+
+  });
+
+</script>

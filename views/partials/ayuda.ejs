@@ -1,0 +1,19 @@
+<h2>Ayuda</h2>
+<ul>
+    <li><strong>Crear nodo</strong>: Pulsa con el botón derecho sobre el area de dibujo y elige el tipo de nodo</li>
+    <li><strong>Modificar propiedades de un nodo</strong>: Haz doble click sobre el nodo. Arriba, en <em>Propiedades del elemento</em> aparecerán las propiedades del nodo. Modifícalas y pulsa <em>Change Properties</em></li>
+    <li><strong>Modificar propiedades de un enlace</strong>: Haz doble click sobre el enlace. Arriba, en <em>Propiedades del elemento</em> puedes modifcar la VLAN y pulsar <em>Change Properties</em></li>
+    <ul>
+        <li>Posibles valores de VLAN: Números para interfaces de acceso / "t" o números separados por comas para trunk (p.ej. "1,2,4")</li>
+        <li>VLAN por defecto 1 (para enlaces trunk): Si no se especifica VLAN se considerará como VLAN 1</li>
+        <li>El tráfico no generado por los usuarios (conectividad RADIUS, etc.) que se genere por los propios equipoa (como APs, captive, etc.), saldrá por la VLAN 1 en interfaces trunk o por la VLAN asignada al interfaz en interfaces(puertos) de acceso</li>
+    </ul>
+    <li><strong>Unir dos nodos</strong>: Selecciona los dos nodos, pulsa con el botón derecho en la zona superior del área de dibujo y elige <em>Link selected nodes</em></li>
+    <li><strong>Seleccionar nodos</strong>: Pulsa sobre los nodos para seleccionarlos, como máximo dos nos se seleccionarán</li>
+    <li><strong>Borrar nodos</strong>: Selecciona 1 ó 2 nodos, pulsa con el botón derecho en la parte superior del área de dibujo y elige <em>Delete Selected Nodes</em></li>
+    <li><strong>Borrar enlace</strong>: Selecciona los 2 nodos que conecta el enlace, pulsa con el botón derecho en la parte superior del área de dibujo y elige <em>Delete links between selected nodes</em></li>
+    <li><strong>Cambiar el tamaño del área de dibujo</strong>: Haz scroll en el área de dibujo hasta llegar a la parte inferior. Pulsa en los botones <em>Agrandar</em> o <em>Reducir</em></li>
+    <li><strong>Comprobar red y enviar resultados al servidor</strong>: Pulsa sobre <em>Evaluate Network</em>. Tu red y puntuación quedará registrada en el servidor (se tomará la máxima de todos los intentos)</li>
+    <li><strong>Crear más de un enlace entre 2 nodos</strong>: Si fuera necesario se pueden utilizar nodos _aux_ para este propósito, usandolos como nodo intermedio entre los nodos a unir. Los 2 enlaces que se conecten al nodo _aux_ se considerarán com un único enlace y deben tener la misma configuración (VLAN)</li>
+    <li>Se recomienda usar VAPs conectados a APs siempre que se usen VLANs (dejando la configuración del AP en blanco). El AP mandará los paquetes de control al servidor RADIUS, el VAP los de los clientes</li>
+</ul>
