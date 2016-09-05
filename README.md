@@ -20,3 +20,4 @@ INSTALLATION & USE:
     Currently the home page is static, but dynamic web pages or sections in the home page could be used to present all the exercises of a same group.
 
 TODO: There is some code cleaning and commenting pending, as well as more testing of the latest changes (mostly translation). 
+
